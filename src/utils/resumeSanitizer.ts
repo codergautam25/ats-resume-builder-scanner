@@ -122,6 +122,11 @@ export function sanitizeCertification(cert: { id?: string; name: string; issuer?
 
   if (lowerName.includes('docker')) {
     standardIssuer = 'Docker / Mirantis';
+  } else if (lowerName.includes('servicenow certified system') || lowerName.includes('servicenow certified') || lowerName.includes('csa')) {
+    name = 'ServiceNow Certified System Administrator (CSA)';
+    standardIssuer = 'ServiceNow';
+  } else if (lowerName.includes('highest performance band') || lowerName.includes('service excellence award')) {
+    standardIssuer = 'Tata Consultancy Services (TCS)';
   } else if (lowerName.includes('aws') || lowerName.includes('amazon web services')) {
     standardIssuer = 'Amazon Web Services (AWS)';
   } else if (lowerName.includes('kubernetes') || lowerName.includes('cka') || lowerName.includes('ckad') || lowerName.includes('cks')) {

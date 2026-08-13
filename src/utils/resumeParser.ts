@@ -773,9 +773,19 @@ export function parseResumeTextToStructuredData(text: string): ResumeData {
     }
   }
 
-  // Parse Certifications
+  // Parse Certifications & Awards
   const certifications: Certification[] = [];
-  const certLines = sections['CERTIFICATIONS'] || [];
+  let certLines = sections['CERTIFICATIONS'] || [];
+
+  if (certLines.length === 0) {
+    const certRegex = /ServiceNow Certified System Administrator|ServiceNow Certified|AWS Certified|Certified Application Developer|Certified Implementation Specialist|Certified System Administrator|PMP|Scrum Master|Service Excellence Award|Highest performance band/i;
+    rawLines.forEach((l) => {
+      if (certRegex.test(l)) {
+        certLines.push(l);
+      }
+    });
+  }
+
   for (let i = 0; i < certLines.length; i++) {
     const cLine = certLines[i];
     const cleanCert = deepCleanText(cLine.replace(/^[-•*➢▪–+o\d+\.]\s*/, '').trim());
@@ -784,10 +794,7 @@ export function parseResumeTextToStructuredData(text: string): ResumeData {
       !cleanCert.startsWith('http://') &&
       !cleanCert.startsWith('https://') &&
       !cleanCert.includes('linkedin.com') &&
-      !cleanCert.includes('github.com') &&
-      !cleanCert.includes('leetcode.com') &&
-      !cleanCert.includes('hackerrank.com') &&
-      !cleanCert.includes('scaler.com')
+      !cleanCert.includes('github.com')
     ) {
       certifications.push(parseCertificationEntry(cleanCert, i));
     }

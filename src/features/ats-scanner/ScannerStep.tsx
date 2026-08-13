@@ -523,12 +523,14 @@ export const ScannerStep: React.FC<ScannerStepProps> = ({
               {/* 🎯 AI Role & Free Learning Advisor Card */}
               {rawText.trim() && (
                 <div className="surface-card border border-indigo-500/30 p-3.5 rounded-xl space-y-2.5 bg-gradient-to-r from-indigo-950/30 to-purple-950/20">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-1.5 text-xs font-extrabold text-default">
-                      <Compass className="w-4 h-4 text-cyan-300" />
-                      <span>Role & Free Learning Advisor</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-subtle pb-2">
+                    <div className="flex items-center space-x-1.5 text-xs font-extrabold text-default shrink-0">
+                      <Compass className="w-4 h-4 text-cyan-300 shrink-0" />
+                      <span className="whitespace-nowrap">Role & Free Learning Advisor</span>
                     </div>
-                    <span className="badge badge-primary text-[10px]">{dynamicDomainInfo.detectedDomain}</span>
+                    <span className="badge badge-primary text-[10px] truncate max-w-full">
+                      {dynamicDomainInfo.detectedDomain}
+                    </span>
                   </div>
 
                   {dynamicDomainInfo.dynamicRoles.length > 0 && (

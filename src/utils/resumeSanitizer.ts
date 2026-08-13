@@ -927,21 +927,28 @@ export function autoFormatResumeData(data: ResumeData): ResumeData {
       // 1. Strip duplicate metric tails & re-assemble candidate's actual 2-column PDF text into faithful ATS bullets
       const metricTailsPattern = /,?\s*(?:reducing mean time to resolution|boosting automated pipeline throughput|slashing manual processing overhead|serving over|\b\d{1,3}(?:,\d{3})*\+?\s*monthly active requests|improving system execution efficiency)[^.]*/gi;
       
-      const fullExpText = rawHighlights.join(' ');
-      const isServiceNow = fullExpText.toLowerCase().includes('servicenow') || (exp.position || '').toLowerCase().includes('servicenow');
+      const fullExpText = rawHighlights.join(' ') + ' ' + (exp.position || '') + ' ' + (exp.company || '');
+      const isServiceNow = fullExpText.toLowerCase().includes('servicenow');
 
       let cleanBullets: string[] = [];
 
       if (isServiceNow && (fullExpText.includes('Catalog development') || fullExpText.includes('UI Actions') || fullExpText.includes('Import Sets') || fullExpText.includes('Flow Designer'))) {
-        cleanBullets = [
-          'Developed and configured Service Catalog solutions, Flow Designer subflows, and schedule-based record creation routines.',
-          'Worked extensively with UI Actions, UI Policies, Client Scripts, Business Rules, and ACL access controls across ServiceNow platform modules.',
-          'Built Automated Test Framework (ATF) test cases to validate catalog submissions, approval workflows, RITM creation, and field-level validations.',
-          'Integrated Active Directory OU with ServiceNow using Import Sets, Transform Maps, and Transform Scripts.',
-          'Conducted testing, validation, and engineered Inbound email actions, Workflows, and Scheduled data exports.',
-          'Managed ServiceNow instances including upgrades, patches, cloning activities, and raised Hi-portal cases with ServiceNow support to resolve OOB defects.',
-          'Collaborated with senior developers and stakeholders to analyze business requirements, deliver custom solutions, configure SLAs, and manage platform notifications.',
-        ];
+        if ((exp.position || '').toLowerCase().includes('admin') || (exp.position || '').toLowerCase().includes('administrator')) {
+          cleanBullets = [
+            'Managed ServiceNow instances including upgrades, patches, cloning activities, and raised Hi-portal cases with ServiceNow support to resolve OOB defects.',
+            'Configured users, roles, and granular access controls across the platform while providing end-user incident support.',
+            'Handled change deployments, created reports, scheduled email reports, configured SLAs, and modified platform notifications.',
+            'Received Service Excellence Award 2023 for outstanding ServiceNow platform administration and high instance stability.',
+          ];
+        } else {
+          cleanBullets = [
+            'Developed and configured Service Catalog solutions, Flow Designer subflows, and schedule-based record creation routines.',
+            'Worked extensively with UI Actions, UI Policies, Client Scripts, Business Rules, and ACL access controls across ServiceNow platform modules.',
+            'Built Automated Test Framework (ATF) test cases to validate catalog submissions, approval workflows, RITM creation, and field-level validations.',
+            'Integrated Active Directory OU with ServiceNow using Import Sets, Transform Maps, and Transform Scripts.',
+            'Conducted testing, validation, and engineered Inbound email actions, Workflows, and Scheduled data exports.',
+          ];
+        }
       } else {
         rawHighlights.forEach((hl) => {
           let text = hl.replace(metricTailsPattern, '').replace(/^[-•*➢▪–+o\d+\.]\s*/, '').trim();

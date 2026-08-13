@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Upload, FileText, Target, PlusCircle, Sparkles, AlertCircle, ArrowRight, CheckCircle2, RefreshCw, AlertTriangle, ShieldCheck, Wand2, Eye } from 'lucide-react';
+import { Upload, FileText, Target, PlusCircle, Sparkles, AlertCircle, ArrowRight, CheckCircle2, RefreshCw, AlertTriangle, ShieldCheck, Wand2, Eye, Compass, BookOpen, ExternalLink } from 'lucide-react';
 import { parseUploadedFile } from '../../utils/fileParser';
 import { parseResumeTextToStructuredData, stripPdfCoordinateNoise } from '../../utils/resumeParser';
 import { TemplateStyle } from '../../types';
+import { generateDynamicDomainRoadmap } from '../../utils/dynamicDomainRoadmap';
+import { getResourcesForSkill } from '../../services/learningResourcesService';
 
 interface ScannerStepProps {
   rawText: string;
@@ -74,6 +76,63 @@ export const ScannerStep: React.FC<ScannerStepProps> = ({
       hasMetrics,
       rawAtsScore,
       issues,
+    };
+  }, [rawText]);
+
+  const dynamicDomainInfo = React.useMemo(() => {
+    if (!rawText.trim()) {
+      return {
+        detectedDomain: 'General Engineering',
+        presets: [
+          { title: 'Software Eng', text: 'Seeking Software Engineer: TypeScript, Node.js, React, Python, PostgreSQL, Docker, AWS, microservices.' },
+          { title: 'Full Stack', text: 'Seeking Full Stack Engineer: React, TypeScript, Node.js, GraphQL, AWS Lambda, Docker, PostgreSQL, CI/CD.' },
+          { title: 'Data/AI Eng', text: 'Seeking Data/AI Engineer: Python, PyTorch, SQL, Spark, BigQuery, Kafka, LLM APIs, Vector Databases.' },
+        ],
+        dynamicRoles: [],
+        freeResources: [],
+      };
+    }
+
+    const parsed = parseResumeTextToStructuredData(rawText);
+    const roadmap = generateDynamicDomainRoadmap(parsed);
+    const domain = roadmap.detectedDomain || 'Software Engineering';
+
+    let presets: Array<{ title: string; text: string }> = [];
+
+    if (domain === 'ServiceNow') {
+      presets = [
+        { title: 'ServiceNow Lead', text: 'Seeking Senior ServiceNow Technical Lead / Architect: ServiceNow ITSM, Flow Designer, IntegrationHub, CMDB Service Graph Connectors, Automated Test Framework (ATF), GlideRecord, Script Includes, Business Rules, ACLs, ITIL v4.' },
+        { title: 'ITSM Flow Lead', text: 'Seeking ServiceNow ITSM Developer: Flow Designer subflows, Service Catalog items, Record Producers, Scripted REST APIs, Client Scripts, UI Policies, UI Actions, SLA tracking.' },
+        { title: 'Integration Arch', text: 'Seeking ServiceNow Integration Architect: IntegrationHub Spokes, Scripted REST APIs, SOAP, AWS/Salesforce connectors, CMDB health governance, CSA/CAD certifications.' },
+      ];
+    } else if (domain === 'Data Engineering') {
+      presets = [
+        { title: 'Data Engineer', text: 'Seeking Senior Data Engineer: Apache Flink, Databricks Delta Lake, PySpark, Kafka, AWS EMR, Terraform, Data Warehousing.' },
+        { title: 'PySpark Lead', text: 'Seeking Lead PySpark Developer: Delta Lake, Databricks, ETL pipelines, Airflow, SQL performance tuning, AWS S3.' },
+        { title: 'Flink Architect', text: 'Seeking Streaming Data Architect: Apache Flink, Kafka, Schema Registry, Real-time stateful stream processing.' },
+      ];
+    } else if (domain === 'Cloud/DevOps' || domain === 'Cloud Engineering') {
+      presets = [
+        { title: 'DevOps Lead', text: 'Seeking Senior DevOps Engineer: Kubernetes, Docker, Helm, Terraform, GitHub Actions CI/CD, Prometheus, AWS.' },
+        { title: 'K8s Architect', text: 'Seeking Kubernetes Infrastructure Architect: Helm charts, Service Mesh, Terraform IaC, OpenTelemetry, CNCF tools.' },
+        { title: 'AWS SRE', text: 'Seeking Site Reliability Engineer (SRE): AWS Solutions Architecture, Docker container orchestration, distributed tracing, Linux.' },
+      ];
+    } else {
+      presets = [
+        { title: 'Software Eng', text: 'Seeking Software Engineer: TypeScript, Node.js, React, Python, PostgreSQL, Docker, AWS, microservices.' },
+        { title: 'Full Stack', text: 'Seeking Full Stack Engineer: React, TypeScript, Node.js, GraphQL, AWS Lambda, Docker, PostgreSQL, CI/CD.' },
+        { title: 'Data/AI Eng', text: 'Seeking Data/AI Engineer: Python, PyTorch, SQL, Spark, BigQuery, Kafka, LLM APIs, Vector Databases.' },
+      ];
+    }
+
+    const topSkillsToStudy = (roadmap.curatedSkillsToMaster || []).slice(0, 3).map((s) => s.skillName);
+    const freeResources = topSkillsToStudy.flatMap((s) => getResourcesForSkill(s));
+
+    return {
+      detectedDomain: domain,
+      presets,
+      dynamicRoles: roadmap.targetRoleOptions || [],
+      freeResources,
     };
   }, [rawText]);
 
@@ -441,11 +500,7 @@ export const ScannerStep: React.FC<ScannerStepProps> = ({
               </label>
 
               <div className="flex flex-wrap gap-1">
-                {[
-                  { title: 'Software Eng', text: 'Seeking Software Engineer: TypeScript, Node.js, React, Python, PostgreSQL, Docker, AWS, microservices.' },
-                  { title: 'Full Stack', text: 'Seeking Full Stack Engineer: React, TypeScript, Node.js, GraphQL, AWS Lambda, Docker, PostgreSQL, CI/CD.' },
-                  { title: 'Data/AI Eng', text: 'Seeking Data/AI Engineer: Python, PyTorch, SQL, Spark, BigQuery, Kafka, LLM APIs, Vector Databases.' },
-                ].map((preset, pIdx) => (
+                {dynamicDomainInfo.presets.map((preset, pIdx) => (
                   <button
                     key={pIdx}
                     type="button"
@@ -460,10 +515,58 @@ export const ScannerStep: React.FC<ScannerStepProps> = ({
               <textarea
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
-                placeholder="Paste target job description to run keyword match..."
-                rows={5}
+                placeholder={`Paste target job description for ${dynamicDomainInfo.detectedDomain} to run keyword match...`}
+                rows={4}
                 className="input text-xs"
               />
+
+              {/* 🎯 AI Role & Free Learning Advisor Card */}
+              {rawText.trim() && (
+                <div className="surface-card border border-indigo-500/30 p-3.5 rounded-xl space-y-2.5 bg-gradient-to-r from-indigo-950/30 to-purple-950/20">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-1.5 text-xs font-extrabold text-default">
+                      <Compass className="w-4 h-4 text-cyan-300" />
+                      <span>Role & Free Learning Advisor</span>
+                    </div>
+                    <span className="badge badge-primary text-[10px]">{dynamicDomainInfo.detectedDomain}</span>
+                  </div>
+
+                  {dynamicDomainInfo.dynamicRoles.length > 0 && (
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-bold text-secondary">Target Roles to Pursue:</span>
+                      <div className="flex flex-wrap gap-1">
+                        {dynamicDomainInfo.dynamicRoles.slice(0, 3).map((r, rIdx) => (
+                          <span key={rIdx} className="px-2 py-0.5 bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 rounded text-[10px] font-bold">
+                            {r.roleTitle} ({r.matchPercentage}%)
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {dynamicDomainInfo.freeResources.length > 0 && (
+                    <div className="space-y-1 pt-1.5 border-t border-subtle">
+                      <span className="text-[10px] font-bold text-secondary">Where to Study Missing Skills (100% Free):</span>
+                      <div className="space-y-1">
+                        {dynamicDomainInfo.freeResources.slice(0, 3).map((res, i) => (
+                          <a
+                            key={i}
+                            href={res.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-between p-1.5 rounded surface-base hover:bg-slate-800 text-[11px] text-indigo-300 transition"
+                          >
+                            <span className="truncate max-w-[200px] font-medium">{res.title}</span>
+                            <span className="text-[9px] text-emerald-400 font-bold ml-1 shrink-0 flex items-center">
+                              {res.source} <ExternalLink className="w-2.5 h-2.5 ml-0.5" />
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Unlisted Accomplishments Input */}

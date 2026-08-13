@@ -1,0 +1,6 @@
+{
+  "name": "ATS Resume Builder & Scanner",
+  "description": "AI-powered ATS resume scanner, interactive skill clarification assistant, bullet point optimizer, and professional PDF exporter.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

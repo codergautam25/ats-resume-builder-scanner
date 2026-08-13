@@ -1,0 +1,671 @@
+{
+  "nodes": [
+    {
+      "id": "root/App.tsx",
+      "label": "App.tsx",
+      "type": "Entrypoint",
+      "file": "src/App.tsx",
+      "community": 0
+    },
+    {
+      "id": "root/server.ts",
+      "label": "server.ts",
+      "type": "Server",
+      "file": "server.ts",
+      "community": 1
+    },
+    {
+      "id": "root/server/index.ts",
+      "label": "server/index.ts",
+      "type": "ServerBootstrap",
+      "file": "server/index.ts",
+      "community": 1
+    },
+    {
+      "id": "root/server/config/gemini.ts",
+      "label": "gemini.ts",
+      "type": "Config",
+      "file": "server/config/gemini.ts",
+      "community": 1
+    },
+    {
+      "id": "root/server/services/ats.service.ts",
+      "label": "ats.service.ts",
+      "type": "Service",
+      "file": "server/services/ats.service.ts",
+      "community": 1
+    },
+    {
+      "id": "file/src/App.tsx",
+      "label": "App.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/App.tsx",
+      "community": 0
+    },
+    {
+      "id": "file/src/main.tsx",
+      "label": "main.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/main.tsx",
+      "community": 0
+    },
+    {
+      "id": "file/src/types.ts",
+      "label": "types.ts",
+      "type": "TypeScriptModule",
+      "file": "src/types.ts",
+      "community": 8
+    },
+    {
+      "id": "file/src/types/career.ts",
+      "label": "career.ts",
+      "type": "TypeScriptModule",
+      "file": "src/types/career.ts",
+      "community": 8
+    },
+    {
+      "id": "file/src/types/hr.ts",
+      "label": "hr.ts",
+      "type": "TypeScriptModule",
+      "file": "src/types/hr.ts",
+      "community": 8
+    },
+    {
+      "id": "file/src/types/ats.ts",
+      "label": "ats.ts",
+      "type": "TypeScriptModule",
+      "file": "src/types/ats.ts",
+      "community": 8
+    },
+    {
+      "id": "file/src/types/index.ts",
+      "label": "index.ts",
+      "type": "TypeScriptModule",
+      "file": "src/types/index.ts",
+      "community": 8
+    },
+    {
+      "id": "file/src/types/interview.ts",
+      "label": "interview.ts",
+      "type": "TypeScriptModule",
+      "file": "src/types/interview.ts",
+      "community": 8
+    },
+    {
+      "id": "file/src/types/resume.ts",
+      "label": "resume.ts",
+      "type": "TypeScriptModule",
+      "file": "src/types/resume.ts",
+      "community": 8
+    },
+    {
+      "id": "file/src/features/index.ts",
+      "label": "index.ts",
+      "type": "TypeScriptModule",
+      "file": "src/features/index.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/features/ats-scanner/ScannerStep.tsx",
+      "label": "ScannerStep.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/ats-scanner/ScannerStep.tsx",
+      "community": 2
+    },
+    {
+      "id": "file/src/features/ats-scanner/ATSScoreCard.tsx",
+      "label": "ATSScoreCard.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/ats-scanner/ATSScoreCard.tsx",
+      "community": 2
+    },
+    {
+      "id": "file/src/features/ats-scanner/ResumeHealthSection.tsx",
+      "label": "ResumeHealthSection.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/ats-scanner/ResumeHealthSection.tsx",
+      "community": 2
+    },
+    {
+      "id": "file/src/features/ats-scanner/ResumeRadarChart.tsx",
+      "label": "ResumeRadarChart.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/ats-scanner/ResumeRadarChart.tsx",
+      "community": 2
+    },
+    {
+      "id": "file/src/features/hr-simulation/HRPersonaSimulator.tsx",
+      "label": "HRPersonaSimulator.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/hr-simulation/HRPersonaSimulator.tsx",
+      "community": 5
+    },
+    {
+      "id": "file/src/features/hr-simulation/SeniorYoEAndImpactDeepDive.tsx",
+      "label": "SeniorYoEAndImpactDeepDive.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/hr-simulation/SeniorYoEAndImpactDeepDive.tsx",
+      "community": 5
+    },
+    {
+      "id": "file/src/features/resume-editor/ResumePreview.tsx",
+      "label": "ResumePreview.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/resume-editor/ResumePreview.tsx",
+      "community": 3
+    },
+    {
+      "id": "file/src/features/resume-editor/ResumeEditor.tsx",
+      "label": "ResumeEditor.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/resume-editor/ResumeEditor.tsx",
+      "community": 3
+    },
+    {
+      "id": "file/src/features/resume-editor/ResumeVersionManager.tsx",
+      "label": "ResumeVersionManager.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/resume-editor/ResumeVersionManager.tsx",
+      "community": 3
+    },
+    {
+      "id": "file/src/features/interview-prep/RoleFlashcardsSection.tsx",
+      "label": "RoleFlashcardsSection.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/interview-prep/RoleFlashcardsSection.tsx",
+      "community": 6
+    },
+    {
+      "id": "file/src/features/interview-prep/InterviewPrep.tsx",
+      "label": "InterviewPrep.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/interview-prep/InterviewPrep.tsx",
+      "community": 6
+    },
+    {
+      "id": "file/src/features/career-guidance/FDERoleComparisonSection.tsx",
+      "label": "FDERoleComparisonSection.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/career-guidance/FDERoleComparisonSection.tsx",
+      "community": 4
+    },
+    {
+      "id": "file/src/features/career-guidance/SkillsLearningRoadmap.tsx",
+      "label": "SkillsLearningRoadmap.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/career-guidance/SkillsLearningRoadmap.tsx",
+      "community": 4
+    },
+    {
+      "id": "file/src/features/career-guidance/FDETransitionPath.tsx",
+      "label": "FDETransitionPath.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/career-guidance/FDETransitionPath.tsx",
+      "community": 4
+    },
+    {
+      "id": "file/src/features/career-guidance/FutureCareerPath.tsx",
+      "label": "FutureCareerPath.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/career-guidance/FutureCareerPath.tsx",
+      "community": 4
+    },
+    {
+      "id": "file/src/features/career-guidance/CareerGapAnalysisComponent.tsx",
+      "label": "CareerGapAnalysisComponent.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/career-guidance/CareerGapAnalysisComponent.tsx",
+      "community": 4
+    },
+    {
+      "id": "file/src/features/career-guidance/CareerGuidanceSection.tsx",
+      "label": "CareerGuidanceSection.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/career-guidance/CareerGuidanceSection.tsx",
+      "community": 4
+    },
+    {
+      "id": "file/src/features/career-guidance/CareerPulse.tsx",
+      "label": "CareerPulse.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/features/career-guidance/CareerPulse.tsx",
+      "community": 4
+    },
+    {
+      "id": "file/src/utils/linkExtractor.ts",
+      "label": "linkExtractor.ts",
+      "type": "TypeScriptModule",
+      "file": "src/utils/linkExtractor.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/utils/fileParser.ts",
+      "label": "fileParser.ts",
+      "type": "TypeScriptModule",
+      "file": "src/utils/fileParser.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/utils/resumeSanitizer.ts",
+      "label": "resumeSanitizer.ts",
+      "type": "TypeScriptModule",
+      "file": "src/utils/resumeSanitizer.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/utils/pdfExport.ts",
+      "label": "pdfExport.ts",
+      "type": "TypeScriptModule",
+      "file": "src/utils/pdfExport.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/utils/autofillKeywordHelper.ts",
+      "label": "autofillKeywordHelper.ts",
+      "type": "TypeScriptModule",
+      "file": "src/utils/autofillKeywordHelper.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/utils/resumeParser.ts",
+      "label": "resumeParser.ts",
+      "type": "TypeScriptModule",
+      "file": "src/utils/resumeParser.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/components/index.ts",
+      "label": "index.ts",
+      "type": "TypeScriptModule",
+      "file": "src/components/index.ts",
+      "community": 0
+    },
+    {
+      "id": "file/src/components/ui/ResumeEditingTrackerDashboard.tsx",
+      "label": "ResumeEditingTrackerDashboard.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/ui/ResumeEditingTrackerDashboard.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/ui/RecentWorkIngestionCard.tsx",
+      "label": "RecentWorkIngestionCard.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/ui/RecentWorkIngestionCard.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/ui/FormatGallery.tsx",
+      "label": "FormatGallery.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/ui/FormatGallery.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/ui/ProductionReadinessDashboard.tsx",
+      "label": "ProductionReadinessDashboard.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/ui/ProductionReadinessDashboard.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/ui/Header.tsx",
+      "label": "Header.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/ui/Header.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/ui/SalaryAndPerksCard.tsx",
+      "label": "SalaryAndPerksCard.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/ui/SalaryAndPerksCard.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/ui/ExportToolbar.tsx",
+      "label": "ExportToolbar.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/ui/ExportToolbar.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/modals/BulletMetadataModal.tsx",
+      "label": "BulletMetadataModal.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/modals/BulletMetadataModal.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/modals/PromptHistoryModal.tsx",
+      "label": "PromptHistoryModal.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/modals/PromptHistoryModal.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/modals/BulletRewriteModal.tsx",
+      "label": "BulletRewriteModal.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/modals/BulletRewriteModal.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/modals/QuickFixModal.tsx",
+      "label": "QuickFixModal.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/modals/QuickFixModal.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/modals/MetricSuggestionsModal.tsx",
+      "label": "MetricSuggestionsModal.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/modals/MetricSuggestionsModal.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/modals/ClarificationModal.tsx",
+      "label": "ClarificationModal.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/modals/ClarificationModal.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/components/modals/SkillLearningResourcesModal.tsx",
+      "label": "SkillLearningResourcesModal.tsx",
+      "type": "TypeScriptModule",
+      "file": "src/components/modals/SkillLearningResourcesModal.tsx",
+      "community": 7
+    },
+    {
+      "id": "file/src/data/sampleResumes.ts",
+      "label": "sampleResumes.ts",
+      "type": "TypeScriptModule",
+      "file": "src/data/sampleResumes.ts",
+      "community": 0
+    }
+  ],
+  "edges": [
+    {
+      "source": "root/server/index.ts",
+      "target": "root/server.ts",
+      "type": "BOOTSTRAPS"
+    },
+    {
+      "source": "root/server.ts",
+      "target": "root/server/config/gemini.ts",
+      "type": "USES"
+    },
+    {
+      "source": "root/server.ts",
+      "target": "root/server/services/ats.service.ts",
+      "type": "USES"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/App.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/main.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/types.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/types/career.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/types/hr.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/types/ats.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/types/index.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/types/interview.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/types/resume.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/index.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/ats-scanner/ScannerStep.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/ats-scanner/ATSScoreCard.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/ats-scanner/ResumeHealthSection.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/ats-scanner/ResumeRadarChart.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/hr-simulation/HRPersonaSimulator.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/hr-simulation/SeniorYoEAndImpactDeepDive.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/resume-editor/ResumePreview.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/resume-editor/ResumeEditor.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/resume-editor/ResumeVersionManager.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/interview-prep/RoleFlashcardsSection.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/interview-prep/InterviewPrep.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/career-guidance/FDERoleComparisonSection.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/career-guidance/SkillsLearningRoadmap.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/career-guidance/FDETransitionPath.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/career-guidance/FutureCareerPath.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/career-guidance/CareerGapAnalysisComponent.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/career-guidance/CareerGuidanceSection.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/features/career-guidance/CareerPulse.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/utils/linkExtractor.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/utils/fileParser.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/utils/resumeSanitizer.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/utils/pdfExport.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/utils/autofillKeywordHelper.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/utils/resumeParser.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/index.ts",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/ui/ResumeEditingTrackerDashboard.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/ui/RecentWorkIngestionCard.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/ui/FormatGallery.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/ui/ProductionReadinessDashboard.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/ui/Header.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/ui/SalaryAndPerksCard.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/ui/ExportToolbar.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/modals/BulletMetadataModal.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/modals/PromptHistoryModal.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/modals/BulletRewriteModal.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/modals/QuickFixModal.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/modals/MetricSuggestionsModal.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/modals/ClarificationModal.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/components/modals/SkillLearningResourcesModal.tsx",
+      "type": "IMPORTS"
+    },
+    {
+      "source": "root/App.tsx",
+      "target": "file/src/data/sampleResumes.ts",
+      "type": "IMPORTS"
+    }
+  ],
+  "summary": {
+    "total_nodes": 55,
+    "total_edges": 53,
+    "communities": [
+      "Application Core",
+      "Server & API Layer",
+      "ATS Scanner Domain",
+      "Resume Editor Domain",
+      "Career Guidance Domain",
+      "HR Simulation Domain",
+      "Interview Prep Domain",
+      "Shared UI & Modals",
+      "Type Definitions"
+    ]
+  }
+}

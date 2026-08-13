@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ATSAnalysis, ResumeData } from '../../types';
-import { CheckCircle, AlertCircle, HelpCircle, Plus, Sparkles, TrendingUp, ShieldCheck, Zap, AlertTriangle, X, Trash2, UserCheck, Wand2, Check, BarChart2 } from 'lucide-react';
+import { CheckCircle, AlertCircle, HelpCircle, Plus, Sparkles, TrendingUp, ShieldCheck, Zap, AlertTriangle, X, Trash2, UserCheck, Wand2, Check, BarChart2, Compass } from 'lucide-react';
 import { SkillsLearningRoadmap } from '../career-guidance/SkillsLearningRoadmap';
 import { RecentWorkIngestionCard } from '../../components/ui/RecentWorkIngestionCard';
 import { ResumeRadarChart } from './ResumeRadarChart';
@@ -30,6 +30,7 @@ interface ATSScoreCardProps {
   onOpenMetricSuggester?: () => void;
   onNavigateToEditorSection?: (section: 'info' | 'summary' | 'experience' | 'skills' | 'projects' | 'education' | 'certifications') => void;
   onAutofillKeyword?: (keyword: string) => void;
+  onNavigateToRoadmap?: () => void;
 }
 
 export const ATSScoreCard: React.FC<ATSScoreCardProps> = ({
@@ -48,6 +49,7 @@ export const ATSScoreCard: React.FC<ATSScoreCardProps> = ({
   onOpenMetricSuggester,
   onNavigateToEditorSection,
   onAutofillKeyword,
+  onNavigateToRoadmap,
 }) => {
   const [appliedRecIndices, setAppliedRecIndices] = useState<Set<number>>(new Set());
   const [fixAllSuccessMsg, setFixAllSuccessMsg] = useState<string | null>(null);
@@ -119,6 +121,36 @@ export const ATSScoreCard: React.FC<ATSScoreCardProps> = ({
           >
             <Sparkles className="w-4 h-4 text-amber-200" />
             <span>Answer {clarificationQuestions.length} Clarifying Questions</span>
+          </button>
+        </div>
+      )}
+
+      {/* AI Role & Free Study Advisor Callout Banner */}
+      {onNavigateToRoadmap && (
+        <div className="surface-card border border-indigo-500/30 p-5 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-slate-900">
+          <div className="flex items-start space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white font-bold flex items-center justify-center shrink-0 shadow-md">
+              <Compass className="w-5 h-5 text-cyan-300" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="font-extrabold text-default text-base font-display">
+                  AI Target Role & Free Study Advisor
+                </h3>
+                <span className="badge badge-primary">100% Free Resources</span>
+              </div>
+              <p className="text-xs text-secondary mt-1 max-w-2xl">
+                Based on your uploaded resume, AI automatically evaluates what roles you can pursue (e.g. ServiceNow Architect, Cloud Lead), what skills to study, and where to study for free (NowLearning, official docs, YouTube, roadmap.sh).
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onNavigateToRoadmap}
+            className="btn btn-primary btn-md w-full sm:w-auto shrink-0 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white border-none shadow-md"
+          >
+            <Compass className="w-4 h-4 text-cyan-300" />
+            <span>Launch Role & Study Roadmap</span>
           </button>
         </div>
       )}

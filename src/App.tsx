@@ -670,6 +670,7 @@ TypeScript, React, Node.js, Python, AWS, Docker, PostgreSQL, MongoDB, Redis, Gra
                 onOpenMetricSuggester={() => setIsMetricSuggesterOpen(true)}
                 onNavigateToEditorSection={() => setActiveTab('edit')}
                 onAutofillKeyword={handleAutofillKeyword}
+                onNavigateToRoadmap={() => setActiveTab('pulse')}
               />
             ) : (
               <div className="text-center py-16 space-y-4">

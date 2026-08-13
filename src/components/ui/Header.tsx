@@ -279,6 +279,34 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               );
             })}
+
+            <div className="pt-2 border-t border-subtle flex flex-col space-y-2">
+              {onSyncObsidian && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onSyncObsidian();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40"
+                >
+                  <span>💜 Sync to Obsidian Vault</span>
+                </button>
+              )}
+              {onOpenOutreach && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onOpenOutreach();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40"
+                >
+                  <Sparkles className="w-4 h-4 text-cyan-300" />
+                  <span>Generate Humanized Outreach</span>
+                </button>
+              )}
+            </div>
           </div>
         )}
 

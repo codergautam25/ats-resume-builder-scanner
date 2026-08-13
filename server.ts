@@ -2049,7 +2049,8 @@ app.post('/api/sync-obsidian', (req, res) => {
     } = req.body || {};
 
     const score = overallScore !== undefined ? overallScore : (atsScore !== undefined ? atsScore : 85);
-    const vaultPath = process.env.OBSIDIAN_VAULT_PATH || './CareerBrain';
+    const rawVaultPath = process.env.OBSIDIAN_VAULT_PATH || './CareerBrain';
+    const vaultPath = path.isAbsolute(rawVaultPath) ? rawVaultPath : path.resolve(process.cwd(), rawVaultPath);
     const fileName = `${candidateName.replace(/\s+/g, '_')}_Career_Log.md`;
     
     const missingWikilinks = (missingKeywords || []).map((k: string) => `[[${k}]]`).join(', ');

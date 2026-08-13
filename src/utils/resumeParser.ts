@@ -608,6 +608,10 @@ export function parseResumeTextToStructuredData(text: string): ResumeData {
       const line = deepCleanText(expLines[i].trim());
       if (!line) continue;
 
+      if (/^(Education|Academic|Technical Skills|Skills & Competencies|Certifications|Key Projects)\b/i.test(line)) {
+        break;
+      }
+
       const isBulletChar = /^[-•*➢▪–+o\d+\.]/.test(line);
       const cleanContent = line.replace(/^[-•*➢▪–+o\d+\.]\s*/, '');
       const startsWithActionVerb = actionVerbsRegex.test(cleanContent);

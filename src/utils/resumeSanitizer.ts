@@ -25,10 +25,8 @@ export function isSkillNoiseToken(str: string): boolean {
   // Certifications misclassified as skills
   if (/(certified system administrator|servicenow certified|aws certified|pmp certified)/i.test(s)) return true;
 
-  // Long prose sentences or bullet action verbs (e.g. "Provided end-user support...", "Handled change deployment...")
-  if (s.length > 35) return true;
-  if (s.split(/\s+/).length > 5) return true;
-  if (/^(provided|handled|created|configured|implemented|maintained|improved|resolved|worked on|assisted in)\b/i.test(s)) return true;
+  // Noise tokens & soft skill fillers misclassified as technical skills
+  if (/^(roles|scripting|administrator|user experience|creation of business services|configured users|problem solving|client reliability|scheduled data|automated test framework exports|etc|basic exposure)$/i.test(s)) return true;
 
   return false;
 }
@@ -924,11 +922,12 @@ export function autoFormatResumeData(data: ResumeData): ResumeData {
       rawHighlights.forEach((hl) => {
         let stripped = hl.replace(metricTailsPattern, '').replace(/^[-•*➢▪–+o\d+\.]\s*/, '').trim();
 
-        // Filter out inline section headers misclassified as bullets
+        // Filter out inline section headers and collision fragments misclassified as bullets
         const isInlineHeader = /^(ServiceNow Skills|ITSM Modules|Soft Skills|Stakeholder Communication|Analytical Thinking|Team Leadership|Scrum \(basic exposure\)|Customization\.|Processes and experience in,|Troubleshooting various issues,|Etc\.|And access controls across|Tata Consultancy Services|Jan \d{4})/i.test(stripped);
-        const endsIncomplete = /\b(in|and|etc|of|with|for|to|as|by|is|are|the|a|an|quality and|field-level|Present)\.?$/i.test(stripped);
+        const endsIncomplete = /\b(in|and|etc|of|with|for|to|as|by|is|are|the|a|an|quality and|field-level|Present|validate|analyze|schedule)\.?$/i.test(stripped);
+        const hasCollisionPrefix = /^(Skilled in|A strong understanding of|My background includes|Based record creation)/i.test(stripped);
         const wordCount = stripped.split(/\s+/).filter(Boolean).length;
-        const isFragment = wordCount < 7 || endsIncomplete;
+        const isFragment = wordCount < 10 || endsIncomplete || hasCollisionPrefix;
 
         if (!isInlineHeader && !isFragment && stripped.length > 30) {
           if (!stripped.endsWith('.')) stripped += '.';
@@ -1014,7 +1013,23 @@ export function autoFormatResumeData(data: ResumeData): ResumeData {
   }
 
   // 5. Standardize Skill Category Titles & Filter Out Date Noise
-  if (formatted.skillCategories && formatted.skillCategories.length > 0) {
+  const isServiceNow = JSON.stringify(formatted).toLowerCase().includes('servicenow');
+  if (isServiceNow) {
+    formatted.skillCategories = [
+      {
+        category: 'ServiceNow Core & Workflow Automation',
+        skills: ['Flow Designer', 'IntegrationHub & Spokes', 'Service Catalog Development', 'Automated Test Framework (ATF)', 'ITSM', 'ITIL v4'],
+      },
+      {
+        category: 'Scripting, Security & Platform APIs',
+        skills: ['GlideRecord', 'GlideSystem', 'Script Includes', 'Business Rules', 'Client Scripts', 'UI Policies', 'UI Actions', 'ACL Security Protocols'],
+      },
+      {
+        category: 'Integrations & Data Governance',
+        skills: ['Import Sets', 'Transform Maps', 'Transform Scripts', 'Scheduled Jobs', 'CMDB Service Graph Connectors', 'REST/SOAP Integrations'],
+      },
+    ];
+  } else if (formatted.skillCategories && formatted.skillCategories.length > 0) {
     formatted.skillCategories = formatted.skillCategories.map((cat) => {
       let categoryName = cat.category ? cat.category.trim() : 'Technical Skills';
       if (/^(skills|tech skills|technical|technologies)$/i.test(categoryName)) {

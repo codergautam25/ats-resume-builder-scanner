@@ -149,3 +149,109 @@ export const SAMPLE_PRODUCT_MANAGER: ResumeData = {
   ],
   certifications: []
 };
+
+export const SAMPLE_SERVICENOW_DEVELOPER: ResumeData = {
+  personalInfo: {
+    fullName: "Indrani Ghosh",
+    headline: "Senior ServiceNow Lead Consultant & Solution Architect",
+    email: "indrani.ghosh@example.com",
+    phone: "+91 98765 43210",
+    location: "Bengaluru, India",
+    linkedin: "https://linkedin.com/in/indranighosh-servicenow",
+    github: "https://github.com/indranighosh-sn",
+    portfolio: "https://indranighosh.dev"
+  },
+  summary: "Results-oriented Senior ServiceNow Lead Consultant with 6+ years of expertise in ServiceNow ITSM, Flow Designer, IntegrationHub, CMDB Service Graph Connectors, Automated Test Framework (ATF), and Scripted REST APIs. Spearheaded enterprise-scale ServiceNow integrations for Fortune 500 clients at Tata Consultancy Services, achieving 45% faster incident response and 99.9% workflow execution uptime.",
+  experience: [
+    {
+      id: "sn-exp-1",
+      company: "Tata Consultancy Services Limited",
+      position: "Senior ServiceNow Consultant",
+      location: "Bengaluru, India",
+      startDate: "2021-06",
+      endDate: "Present",
+      isCurrent: true,
+      highlights: [
+        "Architected enterprise ServiceNow IntegrationHub & Spoke pipelines connecting ServiceNow ITSM with Jira, Salesforce, and AWS, automating 15,000+ monthly change requests.",
+        "Implemented CMDB & Service Graph Connectors for 80,000+ infrastructure CIs, achieving 99.4% CMDB data accuracy and eliminating manual CI reconciliation.",
+        "Engineered custom Scripted REST APIs, Script Includes, Business Rules, UI Actions, and ACL security protocols across ITSM & Service Catalog modules.",
+        "Automated regression test suites using Automated Test Framework (ATF) CI/CD integration, cutting upgrade testing cycle duration by 60%."
+      ]
+    },
+    {
+      id: "sn-exp-2",
+      company: "Global Tech Solutions",
+      position: "ServiceNow Developer",
+      location: "Kolkata, India",
+      startDate: "2018-08",
+      endDate: "2021-05",
+      isCurrent: false,
+      highlights: [
+        "Configured Service Catalog items, Record Producers, and Flow Designer subflows, streamlining IT service requests for 25,000+ enterprise employees.",
+        "Developed GlideRecord server-side scripts, Client Scripts, and UI Policies for complex incident escalation and automated SLA tracking.",
+        "Built custom Inbound Email Actions and notification triggers, reducing ticket assignment turnaround time from 2 hours to under 4 minutes."
+      ]
+    }
+  ],
+  education: [
+    {
+      id: "sn-edu-1",
+      institution: "West Bengal University of Technology",
+      degree: "Bachelor of Technology (B.Tech)",
+      fieldOfStudy: "Computer Science & Engineering",
+      location: "Kolkata, India",
+      startDate: "2014-08",
+      endDate: "2018-05",
+      gpa: "8.6 / 10.0"
+    }
+  ],
+  projects: [
+    {
+      id: "sn-proj-1",
+      title: "ServiceNow Automated IntegrationHub Spoke for AWS Cloud Governance",
+      subtitle: "Enterprise Integration Project",
+      link: "github.com/indranighosh-sn/servicenow-aws-spoke",
+      startDate: "2023-02",
+      endDate: "2023-10",
+      highlights: [
+        "Designed custom IntegrationHub Spoke automating AWS EC2 instance provisioning directly from ServiceNow Service Portal requests.",
+        "Enforced security ACL policies and OAuth 2.0 token authentication for seamless REST API communication."
+      ],
+      technologies: ["ServiceNow IntegrationHub", "Flow Designer", "GlideRecord", "JavaScript", "AWS REST APIs"]
+    }
+  ],
+  skillCategories: [
+    {
+      category: "ServiceNow Core Modules",
+      skills: ["ServiceNow ITSM", "Flow Designer", "IntegrationHub & Spokes", "CMDB & Service Graph Connectors", "Automated Test Framework (ATF)", "Service Catalog Development", "SLA Configuration"]
+    },
+    {
+      category: "ServiceNow Scripting & Security",
+      skills: ["Glide APIs (GlideRecord/GlideSystem)", "Script Includes", "Business Rules", "Client Scripts", "UI Policies", "UI Actions", "ACLs (Access Control Lists)", "Inbound Email Actions", "Scripted REST APIs"]
+    },
+    {
+      category: "Tools & Governance",
+      skills: ["JavaScript (ServiceNow)", "Agile / Scrum", "ITIL v4 Governance", "REST/SOAP Integrations", "Git", "JSON/XML"]
+    }
+  ],
+  certifications: [
+    {
+      id: "sn-cert-1",
+      name: "ServiceNow Certified System Administrator (CSA)",
+      issuer: "ServiceNow",
+      date: "2022-04"
+    },
+    {
+      id: "sn-cert-2",
+      name: "ServiceNow Certified Application Developer (CAD)",
+      issuer: "ServiceNow",
+      date: "2023-01"
+    },
+    {
+      id: "sn-cert-3",
+      name: "ServiceNow Certified Implementation Specialist – ITSM (CIS-ITSM)",
+      issuer: "ServiceNow",
+      date: "2023-09"
+    }
+  ]
+};

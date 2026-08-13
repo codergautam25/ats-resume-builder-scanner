@@ -14,7 +14,7 @@ interface ScannerStepProps {
   onAnalyze: () => void;
   isAnalyzing: boolean;
   errorMessage: string | null;
-  onLoadSampleResume?: () => void;
+  onLoadSampleResume?: (sampleType?: 'swe' | 'servicenow' | 'pm') => void;
   onSelectTemplateStyle?: (style: TemplateStyle) => void;
   onGoToPreview?: () => void;
 }
@@ -263,14 +263,30 @@ export const ScannerStep: React.FC<ScannerStepProps> = ({
                     </button>
                   )}
                   {onLoadSampleResume && !rawText.trim() && (
-                    <button
-                      type="button"
-                      onClick={onLoadSampleResume}
-                      className="text-indigo-400 hover:underline font-bold flex items-center space-x-1 text-[11px]"
-                    >
-                      <RefreshCw className="w-3 h-3" />
-                      <span>Try Sample Resume</span>
-                    </button>
+                    <div className="flex items-center space-x-1.5">
+                      <span className="text-[11px] text-muted">Try sample:</span>
+                      <button
+                        type="button"
+                        onClick={() => onLoadSampleResume('swe')}
+                        className="text-indigo-400 hover:underline font-bold flex items-center space-x-1 text-[11px] bg-indigo-500/10 px-2 py-0.5 rounded-md border border-indigo-500/20"
+                      >
+                        <span>⚡ Full Stack</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onLoadSampleResume('servicenow')}
+                        className="text-purple-300 hover:underline font-bold flex items-center space-x-1 text-[11px] bg-purple-500/15 px-2 py-0.5 rounded-md border border-purple-500/30"
+                      >
+                        <span>💜 ServiceNow</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onLoadSampleResume('pm')}
+                        className="text-emerald-400 hover:underline font-bold flex items-center space-x-1 text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20"
+                      >
+                        <span>📈 PM</span>
+                      </button>
+                    </div>
                   )}
                   <span>{rawText.length} characters</span>
                 </div>

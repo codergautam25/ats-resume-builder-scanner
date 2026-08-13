@@ -3,7 +3,7 @@ import { Header, ExportToolbar, FormatGallery, BulletRewriteModal, PromptHistory
 import { ScannerStep, ATSScoreCard, ResumeEditor, ResumePreview, CareerPulse, InterviewPrep, HRPersonaSimulator, ResumeVersionManager, JobCheckerTab, DynamicCareerRoadmapTab } from './features';
 
 import { ResumeData, ATSAnalysis, TemplateOptions, PromptHistoryItem, ResumeSnapshot, BulletMetadata } from './types';
-import { SAMPLE_SOFTWARE_ENGINEER } from './data/sampleResumes';
+import { SAMPLE_SOFTWARE_ENGINEER, SAMPLE_SERVICENOW_DEVELOPER, SAMPLE_PRODUCT_MANAGER } from './data/sampleResumes';
 import { exportToPDF, triggerPrintResume } from './utils/pdfExport';
 import { parseResumeTextToStructuredData, createEmptyResumeData, stripPdfCoordinateNoise } from './utils/resumeParser';
 import { sanitizeAndFixResumeData, autoFormatResumeData, autoFormatAndFixAnalysis } from './utils/resumeSanitizer';
@@ -41,7 +41,63 @@ export default function App() {
     }
   };
 
-  const handleLoadSampleResume = () => {
+  const handleLoadSampleResume = (sampleType: 'swe' | 'servicenow' | 'pm' = 'servicenow') => {
+    if (sampleType === 'servicenow') {
+      const sampleText = `Indrani Ghosh
+Senior ServiceNow Lead Consultant & Solution Architect
+indrani.ghosh@example.com | +91 98765 43210 | Bengaluru, India
+LinkedIn: linkedin.com/in/indranighosh-servicenow | GitHub: github.com/indranighosh-sn
+
+SUMMARY
+Results-oriented Senior ServiceNow Lead Consultant with 6+ years of expertise in ServiceNow ITSM, Flow Designer, IntegrationHub, CMDB Service Graph Connectors, Automated Test Framework (ATF), and Scripted REST APIs. Spearheaded enterprise-scale ServiceNow integrations for Fortune 500 clients at Tata Consultancy Services, achieving 45% faster incident response and 99.9% workflow execution uptime.
+
+WORK EXPERIENCE
+Tata Consultancy Services Limited - Senior ServiceNow Consultant (2021-Present)
+- Architected enterprise ServiceNow IntegrationHub & Spoke pipelines connecting ServiceNow ITSM with Jira, Salesforce, and AWS, automating 15,000+ monthly change requests.
+- Implemented CMDB & Service Graph Connectors for 80,000+ infrastructure CIs, achieving 99.4% CMDB data accuracy and eliminating manual CI reconciliation.
+- Engineered custom Scripted REST APIs, Script Includes, Business Rules, UI Actions, and ACL security protocols across ITSM & Service Catalog modules.
+- Automated regression test suites using Automated Test Framework (ATF) CI/CD integration, cutting upgrade testing cycle duration by 60%.
+
+Global Tech Solutions - ServiceNow Developer (2018-2021)
+- Configured Service Catalog items, Record Producers, and Flow Designer subflows, streamlining IT service requests for 25,000+ enterprise employees.
+- Developed GlideRecord server-side scripts, Client Scripts, and UI Policies for complex incident escalation and automated SLA tracking.
+- Built custom Inbound Email Actions and notification triggers, reducing ticket assignment turnaround time from 2 hours to under 4 minutes.
+
+SKILLS
+ServiceNow ITSM, Flow Designer, IntegrationHub & Spokes, CMDB & Service Graph Connectors, Automated Test Framework (ATF), Service Catalog Development, SLA Configuration, Glide APIs (GlideRecord/GlideSystem), Script Includes, Business Rules, Client Scripts, UI Policies, UI Actions, ACLs (Access Control Lists), Inbound Email Actions, Scripted REST APIs, JavaScript (ServiceNow), Agile / Scrum, ITIL v4 Governance, REST/SOAP Integrations`;
+
+      setRawText(sampleText);
+      setJobDescription(`Seeking a Senior ServiceNow Technical Lead / Architect to design enterprise IntegrationHub spokes, CMDB connectors, and Flow Designer automation workflows. Requirements: 5+ years experience in ServiceNow ITSM, Glide APIs (GlideRecord/GlideSystem), Script Includes, Business Rules, ACLs, ATF CI/CD automation, ITIL v4, CSA and CAD certifications.`);
+      setExtraWorkNotes(`Designed custom IntegrationHub Spoke automating AWS EC2 instance provisioning directly from ServiceNow Service Portal requests.`);
+      setResumeData(SAMPLE_SERVICENOW_DEVELOPER);
+      return;
+    }
+
+    if (sampleType === 'pm') {
+      const sampleText = `Elena Rostova
+Lead Product Manager | Fintech & AI Products
+elena.rostova@example.com | +1 (555) 890-1234 | New York, NY
+LinkedIn: linkedin.com/in/elena-rostova-pm
+
+SUMMARY
+Data-driven Lead Product Manager with 7+ years leading cross-functional engineering, UX, and marketing teams to scale B2B SaaS platforms. Managed product roadmaps generating $12M+ ARR, optimized user onboarding funnels by 28%, and launched generative AI integrations.
+
+WORK EXPERIENCE
+FinTech Pulse Inc. - Senior Product Manager (2021-Present)
+- Spearheaded product strategy for automated credit risk assessment engine, increasing quarterly loan approvals by $24M while maintaining risk metrics.
+- Partnered with engineering leadership to deliver AI feature pipeline on time, driving 34% boost in daily user engagement across 120k active SMB clients.
+
+SKILLS
+Product Strategy, Roadmap Execution, Agile / Scrum, User Research, A/B Testing, Mixpanel, Google Analytics, Jira, Figma, SQL Data Analysis`;
+
+      setRawText(sampleText);
+      setJobDescription(`Seeking a Lead Product Manager to own B2B SaaS product roadmaps. Requirements: 5+ years product leadership, user research, OKRs, A/B testing, SQL analytics, Jira, Figma, and AI feature deployment.`);
+      setExtraWorkNotes(`Launched automated credit risk assessment engine increasing approvals by $24M.`);
+      setResumeData(SAMPLE_PRODUCT_MANAGER);
+      return;
+    }
+
+    // Default: Full Stack SWE (Alex Rivera)
     const sampleText = `Alex Rivera
 Senior Full Stack Engineer
 alex.rivera@example.com | +1 (555) 234-5678 | San Francisco, CA

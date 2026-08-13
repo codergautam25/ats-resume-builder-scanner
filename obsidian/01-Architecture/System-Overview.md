@@ -1,31 +1,28 @@
-# System Overview
+---
+date: 2026-08-13
+type: architecture
+project: ATS-ResumAI
+author: Antigravity AI Architect
+tags: [obsidian-vault, resumai, architecture]
+---
+# [[System Overview]] - ATS ResumAI Enterprise Architecture
 
-## 🎯 Purpose
-The **ATS Resume Builder & Scanner** is an AI-powered resume analysis, optimization, and career guidance platform. It scans resumes against job descriptions, calculates ATS match scores, generates bullet point rewrites, simulates HR recruiter feedback, and offers interview preparation flashcards and career progression roadmaps.
+## Tech Stack Overview
 
-## 🛠 Technology Stack
-- **Frontend Core**: React 19, TypeScript 5.8, Vite 6
-- **Styling & Motion**: TailwindCSS 4, Motion (Framer Motion), Lucide React Icons, Recharts
-- **PDF & Canvas Export**: `html2canvas`, `jspdf`, `pdfjs-dist`, `pdf-parse`
-- **Backend Core**: Express 4, Node.js, `tsx` / `esbuild`
-- **AI Integration**: `@google/genai` (Gemini 2.5 Flash, Gemini 2.5 Pro, Gemini 2.0 Flash)
+- **Frontend**: React 19, TypeScript 5.8, Tailwind CSS v4, Lucide React, Recharts, Motion v12
+- **Backend**: Node.js, Express.js (`server.ts` compiled to `dist/server.cjs` via esbuild)
+- **Document Processing**: `pdf-parse`, `pdfjs-dist`, `html2canvas`, `jspdf`
+- **AI Engines**:
+  1. Google Gemini 2.5 Flash (`@google/genai`)
+  2. Local Ollama (`http://localhost:11434`)
+  3. Local OmniRoute Proxy (`http://localhost:20128/v1`)
+  4. Local Humanizer & Regex Pattern Cleaners
 
-## 🔄 Core Data Flow
-```
-User Resume + Job Description 
-       │
-       ▼
-[Frontend UI] ──(REST API Request)──► [Express Server]
-                                           │
-                                           ▼
-                                    [Gemini AI Engine]
-                                           │
-                                           ▼
-[Frontend Dashboard] ◄──(JSON Response)────┘
-  ├── ATS Score & Radar Breakdown
-  ├── Resume Bullet AI Rewriter
-  ├── HR Persona Feedback
-  └── Career Path Roadmap
-```
+## Key System Flows
+1. User uploads PDF/DOCX resume or loads sample profile.
+2. Parser extracts text, strips binary artifact noise, maps fields (`fullName`, `email`, `experience`, `skills`).
+3. ATS Engine scores overall compatibility, missing keywords, and domain radar metrics.
+4. 1-Click Fix All Engine normalizes section headers, dates, and metric bullets.
+5. Dynamic Career Roadmap renders 3-phase progression, 2026 AI trend predictor, and free study links.
+6. Obsidian Vault Sync exports structured markdown logs directly into local Obsidian vaults.
 
-Related: [[Modular-Structure]], [[Gemini-AI-Endpoints]], [[ADR-001-Modular-Architecture]]

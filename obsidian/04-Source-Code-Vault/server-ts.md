@@ -1,3 +1,13 @@
+---
+date: 2026-08-13
+type: source-code
+project: ATS-ResumAI
+author: Antigravity AI Architect
+tags: [obsidian-vault, resumai, source-code]
+---
+# server.ts - Express Server Entrypoint
+
+```typescript
 import express from "express";
 import path from "path";
 import fs from "fs";
@@ -10,7 +20,6 @@ import * as pdfParseModule from "pdf-parse";
 import { deepCleanText, extractSocialLinksFromText } from "./src/utils/resumeParser";
 import { humanizeText, humanizeResumeData } from "./src/utils/humanizer";
 import { getLocalOllamaModels, generateAccomplishmentsWithOllama, suggestRolesAndProjectsWithOllama } from "./src/services/ollamaService";
-import { runFullObsidianVaultSync } from "./scripts/sync_obsidian_vault";
 
 const pdfParse = (pdfParseModule as any).default || pdfParseModule;
 
@@ -2081,35 +2090,15 @@ ${learningPlan ? `## 30-Day Skill Acceleration Plan\n${learningPlan}\n` : ''}
     fs.mkdirSync(vaultPath, { recursive: true });
     const fullPath = path.join(vaultPath, fileName);
     fs.writeFileSync(fullPath, content, 'utf-8');
-
-    // Automatically trigger full vault documentation sync
-    const vaultSyncResult = runFullObsidianVaultSync();
-
     res.json({
       success: true,
-      message: `Synced note to ${fullPath} & updated ${vaultSyncResult.filesCreated} full vault notes!`,
+      message: `Synced to ${fullPath}`,
       filePath: fullPath,
       fileName,
-      vaultSync: vaultSyncResult,
     });
   } catch (err: any) {
     console.error("Obsidian Sync Error:", err);
     res.json({ success: false, message: 'Obsidian sync fallback handled cleanly.', error: err.message });
-  }
-});
-
-// 11b. Full Vault Bulk Export Endpoint
-app.post('/api/sync-full-vault', (req, res) => {
-  try {
-    const { customPath } = req.body || {};
-    const result = runFullObsidianVaultSync(customPath);
-    res.json({
-      success: true,
-      message: `Successfully exported full codebase architecture, documentation & resume logs to Obsidian vault (${result.filesCreated} files in ${result.vaultDir})`,
-      result,
-    });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message || "Failed to execute full Obsidian vault export" });
   }
 });
 
@@ -2200,3 +2189,5 @@ async function startServer() {
 }
 
 startServer();
+
+```

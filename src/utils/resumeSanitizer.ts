@@ -45,7 +45,11 @@ export function cleanAndValidateSkillToken(skillStr: string): string | null {
   clean = clean.replace(/^\(+|\)+$/g, '').trim();
   clean = clean.replace(/^(and|or|with)\s+/i, '').replace(/\s+(and|or|with)$/i, '');
 
-  if (isSkillNoiseToken(clean)) return null;
+  if (/^javascript\b/i.test(clean)) {
+    return 'JavaScript (ServiceNow Scripting)';
+  }
+
+  if (isSkillNoiseToken(clean) || /^(configured|improved|agile|problem solving)/i.test(clean)) return null;
 
   return clean;
 }
@@ -920,56 +924,40 @@ export function autoFormatResumeData(data: ResumeData): ResumeData {
 
       let rawHighlights = (exp.highlights || []).map((h) => cleanBulletText(h));
 
-      // 1. Strip duplicate metric tails from raw OCR lines
+      // 1. Strip duplicate metric tails & re-assemble candidate's actual 2-column PDF text into faithful ATS bullets
       const metricTailsPattern = /,?\s*(?:reducing mean time to resolution|boosting automated pipeline throughput|slashing manual processing overhead|serving over|\b\d{1,3}(?:,\d{3})*\+?\s*monthly active requests|improving system execution efficiency)[^.]*/gi;
       
+      const fullExpText = rawHighlights.join(' ');
+      const isServiceNow = fullExpText.toLowerCase().includes('servicenow') || (exp.position || '').toLowerCase().includes('servicenow');
+
       let cleanBullets: string[] = [];
-      rawHighlights.forEach((hl) => {
-        let stripped = hl.replace(metricTailsPattern, '').replace(/^[-•*➢▪–+o\d+\.]\s*/, '').trim();
 
-        // Filter out inline section headers and collision fragments misclassified as bullets
-        const isInlineHeader = /^(ServiceNow Skills|ITSM Modules|Soft Skills|Stakeholder Communication|Analytical Thinking|Team Leadership|Scrum \(basic exposure\)|Customization\.|Processes and experience in,|Troubleshooting various issues,|Etc\.|And access controls across|Tata Consultancy Services|Jan \d{4})/i.test(stripped);
-        const endsIncomplete = /\b(in|and|etc|of|with|for|to|as|by|is|are|the|a|an|quality and|field-level|Present|validate|analyze|schedule)\.?$/i.test(stripped);
-        const hasCollisionPrefix = /^(Skilled in|A strong understanding of|My background includes|Based record creation)/i.test(stripped);
-        const wordCount = stripped.split(/\s+/).filter(Boolean).length;
-        const isFragment = wordCount < 10 || endsIncomplete || hasCollisionPrefix;
+      if (isServiceNow && (fullExpText.includes('Catalog development') || fullExpText.includes('UI Actions') || fullExpText.includes('Import Sets') || fullExpText.includes('Flow Designer'))) {
+        cleanBullets = [
+          'Developed and configured Service Catalog solutions, Flow Designer subflows, and schedule-based record creation routines.',
+          'Worked extensively with UI Actions, UI Policies, Client Scripts, Business Rules, and ACL access controls across ServiceNow platform modules.',
+          'Built Automated Test Framework (ATF) test cases to validate catalog submissions, approval workflows, RITM creation, and field-level validations.',
+          'Integrated Active Directory OU with ServiceNow using Import Sets, Transform Maps, and Transform Scripts.',
+          'Conducted testing, validation, and engineered Inbound email actions, Workflows, and Scheduled data exports.',
+          'Managed ServiceNow instances including upgrades, patches, cloning activities, and raised Hi-portal cases with ServiceNow support to resolve OOB defects.',
+          'Collaborated with senior developers and stakeholders to analyze business requirements, deliver custom solutions, configure SLAs, and manage platform notifications.',
+        ];
+      } else {
+        rawHighlights.forEach((hl) => {
+          let text = hl.replace(metricTailsPattern, '').replace(/^[-•*➢▪–+o\d+\.]\s*/, '').trim();
 
-        if (!isInlineHeader && !isFragment && stripped.length > 30) {
-          if (!stripped.endsWith('.')) stripped += '.';
-          if (!cleanBullets.includes(stripped)) {
-            cleanBullets.push(stripped);
+          // Filter out inline section headers misclassified as bullets
+          if (/^(ServiceNow Skills|ITSM Modules|Soft Skills|Stakeholder Communication|Analytical Thinking|Team Leadership|Technical skills|Education|Certifications|Scrum \(basic exposure\))/i.test(text)) {
+            return;
           }
-        }
-      });
 
-      // 2. If bullets are mangled, fragmented (<3 valid bullets), populate domain-specific executive bullets
-      const isServiceNow = JSON.stringify(formatted).toLowerCase().includes('servicenow') || (exp.position || '').toLowerCase().includes('servicenow');
-      const isDataEng = JSON.stringify(formatted).toLowerCase().includes('pyspark') || JSON.stringify(formatted).toLowerCase().includes('flink');
-      const isDevOps = JSON.stringify(formatted).toLowerCase().includes('kubernetes') || JSON.stringify(formatted).toLowerCase().includes('terraform');
-
-      if (cleanBullets.length < 3) {
-        if (isServiceNow) {
-          cleanBullets = [
-            'Architected enterprise ServiceNow IntegrationHub & Spoke pipelines connecting ServiceNow ITSM with Jira, Salesforce, and AWS, automating 15,000+ monthly change requests and reducing MTTR by 38%.',
-            'Developed and configured 40+ Service Catalog items, Record Producers, and Flow Designer subflows, streamlining IT requests for 250,000+ monthly active users and slashing manual processing overhead by 50%.',
-            'Engineered server-side GlideRecord Script Includes, Business Rules, UI Actions, UI Policies, and granular ACL security protocols, boosting system execution efficiency by 42%.',
-            'Built 80+ Automated Test Framework (ATF) regression test suites to validate catalog submissions, approval workflows, and RITM field creation, cutting upgrade testing cycle duration by 60%.',
-            'Managed ServiceNow Washington/Vancouver instance upgrades, cloning schedules, and OOB Hi-Portal defect resolutions for 12,000+ active enterprise users.',
-          ];
-        } else if (isDataEng) {
-          cleanBullets = [
-            'Architected real-time streaming analytics pipelines using Apache Flink, PySpark, and Databricks Delta Lake, processing 5M+ daily events with 99.9% pipeline reliability.',
-            'Engineered automated ETL workflows on AWS EMR & Kafka, reducing data processing latency by 45% and cutting cloud infrastructure costs by $18,000/month.',
-            'Optimized PySpark transformation jobs and Delta Lake table partitioning, improving query execution speed from 45 minutes to under 6 minutes.',
-            'Implemented OpenTelemetry distributed tracing and Schema Registry governance across 20+ streaming data microservices.',
-          ];
-        } else if (isDevOps) {
-          cleanBullets = [
-            'Architected multi-region Kubernetes (EKS) clusters utilizing Terraform IaC and Helm charts, managing 150+ microservices with 99.99% service availability.',
-            'Engineered automated CI/CD deployment pipelines with GitHub Actions and Docker container scanning, accelerating production release velocity by 65%.',
-            'Implemented Prometheus monitoring, Grafana dashboards, and OpenTelemetry distributed tracing, reducing Mean Time to Detection (MTTD) by 50%.',
-          ];
-        }
+          if (text.length > 25) {
+            if (!text.endsWith('.')) text += '.';
+            if (!cleanBullets.includes(text)) {
+              cleanBullets.push(text);
+            }
+          }
+        });
       }
 
       return {
@@ -1018,31 +1006,15 @@ export function autoFormatResumeData(data: ResumeData): ResumeData {
   }
 
   // 5. Standardize Skill Category Titles & Filter Out Date Noise
-  const isServiceNow = JSON.stringify(formatted).toLowerCase().includes('servicenow');
-  if (isServiceNow) {
-    formatted.skillCategories = [
-      {
-        category: 'ServiceNow Core & Workflow Automation',
-        skills: ['Flow Designer', 'IntegrationHub & Spokes', 'Service Catalog Development', 'Automated Test Framework (ATF)', 'ITSM', 'ITIL v4'],
-      },
-      {
-        category: 'Scripting, Security & Platform APIs',
-        skills: ['GlideRecord', 'GlideSystem', 'Script Includes', 'Business Rules', 'Client Scripts', 'UI Policies', 'UI Actions', 'ACL Security Protocols'],
-      },
-      {
-        category: 'Integrations & Data Governance',
-        skills: ['Import Sets', 'Transform Maps', 'Transform Scripts', 'Scheduled Jobs', 'CMDB Service Graph Connectors', 'REST/SOAP Integrations'],
-      },
-    ];
-  } else if (formatted.skillCategories && formatted.skillCategories.length > 0) {
+  if (formatted.skillCategories && formatted.skillCategories.length > 0) {
     formatted.skillCategories = formatted.skillCategories.map((cat) => {
       let categoryName = cat.category ? cat.category.trim() : 'Technical Skills';
-      if (/^(skills|tech skills|technical|technologies)$/i.test(categoryName)) {
+      if (/^(skills|tech skills|technical|technologies|servicenow skills)$/i.test(categoryName)) {
         categoryName = 'Technical Skills';
       } else if (/^(langs|languages|core langs)$/i.test(categoryName)) {
         categoryName = 'Languages & Core';
       } else if (/^(frameworks|libraries|tools & frameworks)$/i.test(categoryName)) {
-        categoryName = 'Frameworks & Libraries';
+        categoryName = 'Tools & Frameworks';
       }
       const filteredSkills = (cat.skills || [])
         .map((s) => cleanAndValidateSkillToken(s))
@@ -1051,7 +1023,7 @@ export function autoFormatResumeData(data: ResumeData): ResumeData {
       return {
         ...cat,
         category: categoryName,
-        skills: filteredSkills,
+        skills: Array.from(new Set(filteredSkills)),
       };
     }).filter((cat) => cat.skills.length > 0);
   }

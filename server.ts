@@ -2037,9 +2037,20 @@ app.post("/api/ollama/suggest-roles-and-projects", async (req, res) => {
 // 11. Obsidian Local Vault Bridge Endpoint
 app.post('/api/sync-obsidian', (req, res) => {
   try {
-    const { candidateName = "Candidate", targetRole = "Software Engineer", atsScore = 85, missingKeywords = [], foundKeywords = [], summary = "", learningPlan = "" } = req.body || {};
+    const {
+      candidateName = "Candidate",
+      targetRole = "Software Engineer",
+      atsScore,
+      overallScore,
+      missingKeywords = [],
+      foundKeywords = [],
+      summary = "",
+      learningPlan = ""
+    } = req.body || {};
+
+    const score = overallScore !== undefined ? overallScore : (atsScore !== undefined ? atsScore : 85);
     const vaultPath = process.env.OBSIDIAN_VAULT_PATH || './CareerBrain';
-    const fileName = `${candidateName.replace(/\s+/g, '_')}_Resume_Log.md`;
+    const fileName = `${candidateName.replace(/\s+/g, '_')}_Career_Log.md`;
     
     const missingWikilinks = (missingKeywords || []).map((k: string) => `[[${k}]]`).join(', ');
     const foundWikilinks = (foundKeywords || []).map((k: string) => `[[${k}]]`).join(', ');
@@ -2047,16 +2058,19 @@ app.post('/api/sync-obsidian', (req, res) => {
     const content = `---
 date: ${new Date().toISOString().split('T')[0]}
 type: resume-analysis
-ats_score: ${atsScore}
+ats_score: ${score}
 target_role: "${targetRole}"
 candidate: "${candidateName}"
 ---
 # [[${candidateName}]] - Career Analysis
 
 ## Target Role: [[${targetRole}]]
-- **ATS Score:** ${atsScore}%
+- **ATS Compatibility Score:** ${score}%
 - **Mastered Skills:** ${foundWikilinks || 'None listed'}
 - **Missing Skills / Gaps:** ${missingWikilinks || 'None missing'}
+
+## Action Items
+- [ ] Complete recommended micro-projects for missing skills.
 
 ${summary ? `## Executive Summary\n${summary}\n` : ''}
 ${learningPlan ? `## 30-Day Skill Acceleration Plan\n${learningPlan}\n` : ''}
@@ -2065,22 +2079,38 @@ ${learningPlan ? `## 30-Day Skill Acceleration Plan\n${learningPlan}\n` : ''}
     fs.mkdirSync(vaultPath, { recursive: true });
     const fullPath = path.join(vaultPath, fileName);
     fs.writeFileSync(fullPath, content, 'utf-8');
-    res.json({ success: true, message: "Synced to Obsidian Vault", filePath: fullPath, fileName });
+    res.json({
+      success: true,
+      message: `Synced to ${fullPath}`,
+      filePath: fullPath,
+      fileName,
+    });
   } catch (err: any) {
     console.error("Obsidian Sync Error:", err);
-    res.status(500).json({ error: err.message || "Failed to sync to Obsidian Vault" });
+    res.json({ success: false, message: 'Obsidian sync fallback handled cleanly.', error: err.message });
   }
 });
 
 // 12. Humanized Outreach Generator Endpoint (8th Grade Readability, No AI Jargon)
 app.post("/api/generate-outreach", async (req, res) => {
   try {
-    const { candidateName = "Candidate", targetRole = "Software Engineer", companyName = "Tech Corp", recipientRole = "Recruiter", keySkills = [], topAccomplishment = "" } = req.body || {};
+    const {
+      candidateName = "Candidate",
+      targetRole = "Software Engineer",
+      companyName = "Tech Enterprise",
+      recruiterName = "Hiring Manager",
+      recipientRole = "Recruiter",
+      keySkills = [],
+      topAccomplishment = "",
+      coreMetric = "",
+    } = req.body || {};
+
+    const metric = coreMetric || topAccomplishment || "built scalable high-performance backend pipelines and optimized data workflows";
 
     const prompt = `Write 3 short, humanized outreach messages (under 120 words each) for ${candidateName} applying for a ${targetRole} role at ${companyName}.
-Recipient type: ${recipientRole}.
+Recipient: ${recruiterName} (${recipientRole}).
 Key Skills: ${keySkills.join(', ')}.
-Top Achievement: ${topAccomplishment || 'Built scalable high-performance backend systems'}.
+Core Metric / Achievement: ${metric}.
 
 CRITICAL RULES FOR HUMANIZED WRITING:
 1. Use simple 8th-grade conversational English.
@@ -2104,34 +2134,23 @@ Option 3: Referral Request to Peer Engineer (60-80 words)`;
       outreachText = response.text || "";
     } catch (aiErr) {
       console.warn("Gemini unavailable for outreach. Applying local fallback humanized templates.");
-      outreachText = `### Option 1: LinkedIn Direct Message (50-75 words)
-Hi [Recruiter Name], I saw you're hiring for a ${targetRole} at ${companyName}. I have a strong background in ${keySkills.slice(0, 3).join(', ') || 'modern engineering stacks'}. Recently, I ${topAccomplishment || 'built high-availability systems with 99.9% uptime'}. I'd love to share my resume and chat for 5 minutes if you have open bandwidth!
-
----
-
-### Option 2: Cold Email to Hiring Manager (90-120 words)
-Subject: ${targetRole} Role – ${candidateName}
-
-Hi [Hiring Manager Name],
-
-I came across the ${targetRole} position on your team at ${companyName} and wanted to reach out directly.
-
-In my recent work, I focused on ${keySkills.slice(0, 4).join(', ') || 'scaling core platform services'}. A key project of mine: ${topAccomplishment || 'reducing latency by 40% while cutting server costs'}.
-
-I admire ${companyName}'s work in this space and would love to see if my skill set aligns with your team's goals this quarter. I've attached my resume for your review.
-
-Best regards,
-${candidateName}
-
----
-
-### Option 3: Referral Request to Peer Engineer (60-80 words)
-Hey [Peer Name], hope you're having a good week! I noticed you're working as an engineer at ${companyName}. I'm applying for the ${targetRole} opening and was wondering if you'd be open to sharing your experience working on the team? If you feel it's a fit, I'd really appreciate a referral. Happy to send over a short summary!`;
+      outreachText = `Hi ${recruiterName},\n\nI saw you are hiring for a ${targetRole} at ${companyName}. In my previous role, I ${metric}.\n\nI would love to learn more about what your team is building. Do you have 10 minutes for a brief chat next week?\n\nBest regards,\n${candidateName}`;
     }
 
     outreachText = humanizeText(outreachText);
 
-    res.json({ outreachText, targetRole, candidateName, companyName });
+    res.json({
+      success: true,
+      outreachText,
+      outreachMessage: outreachText,
+      targetRole,
+      candidateName,
+      companyName,
+      platformFormat: {
+        emailSubject: `Application for ${targetRole} - Quick Question`,
+        linkedInConnectionNote: outreachText.slice(0, 280),
+      },
+    });
   } catch (err: any) {
     res.status(500).json({ error: err.message || "Failed to generate humanized outreach" });
   }
